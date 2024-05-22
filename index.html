@@ -146,30 +146,30 @@
     }
 
     work() {
-    const initialAntCount = this.ants.length;
-    if (initialAntCount === 0) {
-      return "No ants here. Did you work them to death?";
-    }
-    
-    this.ants = this.ants.filter(ant => {
-      ant.health -= 20;
-      return ant.health > 0;
-    });
+        if (this.ants.length === 0) {
+            return "No ants here. Did you work them to death?";
+        }
         
-        this.ants = remainingAnts;
+        this.ants.forEach(ant => {
+            ant.health -= 20;
+            if (ant.health <= 0) {
+                this.ants = this.ants.filter(a => a !== ant);
+            }
+        });
+
         return `${this.ants.length} ants starting work!`;
     }
 
     feed(name) {
-        const foundAnt = this.ants.find(ant => ant.name === name);
-        if (foundAnt) {
-            foundAnt.health += 15;
-            return "Yum!";
-        } else {
+        const ant = this.ants.find(ant => ant.name === name);
+        if (!ant) {
             return `${name} not found!`;
         }
-    }
 
+        ant.health += 15;
+        return "Yum!";
+    }
+}
     }
 
 
